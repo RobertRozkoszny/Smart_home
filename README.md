@@ -1,4 +1,4 @@
-###### `This is part of a smart home web app project`
+#### `This is part of a smart home web app project`
 
 This project concerns the development of a wireless smart home system using Raspberry Pi.
 The system enables the user to get temperature, humidity,  light intensity and gas sensor data through a web application.
