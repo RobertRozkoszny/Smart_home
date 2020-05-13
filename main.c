@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <unistd.h>			//UART
 #include <fcntl.h>			//UART
-#include <termios.h>		//UART
+#include <termios.h>			//UART
 #include <stdlib.h>
 #include <time.h>
 #include <pthread.h>
@@ -14,15 +14,10 @@ int uart0_filestream;
 unsigned char rx_buffer[256];
 
 void *zapytanie_co_x(void *ptr);
-
 void *symulacja(void *ptr);
-
 void zapis_danych(char wybor_bazy,char parametr_1[], char parametr_2[],MYSQL *con);
-
 void pomiar_temp_wilg(MYSQL *con);
-
 void pomiar_ruch_osw(MYSQL *con);
-
 void finish_with_error(MYSQL *con) 
 {
   fprintf(stderr, "%s\n", mysql_error(con));
@@ -46,17 +41,12 @@ void initUART(){
 	
 }
 
-
-
-	void main(){
-		
-		
-		
+	void main(){	
 		//Zmienne wykorzystywane do tworzenia wątków.
 	  pthread_t thread1, thread2, thread3;
 	  const int message1 = 1800;		//30min- Interwał czasowy sprawdzania czujnika DHT11.
-      const int message2 = 30;			//30sek- Opóznienie- ponowne sprawdzenie natężenie światła po wykryciku ruchu.
-      int  iret1, iret2, iret3;
+      	  const int message2 = 30;	        //30sek- Opóznienie- ponowne sprawdzenie natężenie światła po wykryciku ruchu.
+      	  int  iret1, iret2, iret3;
 		
 	  initUART();			//Inicjalizacja UART.
 		
@@ -97,8 +87,6 @@ void initUART(){
 			}else{
 				rx_buffer[rx_length] = '\0';		//Zakończenie wiadomości tekstowej.
 			}
-			
-			
 			if(rx_buffer[0]=='r'){
 				
 				//Gdy wykryto ruch w pomieszczeniu. 
@@ -114,22 +102,15 @@ void initUART(){
 			}else if(rx_buffer[0]=='t'){
 					pomiar_temp_wilg(con);
 			}
-								
-	
 		}
-
-	
 			//Zakończenie UART oraz MySql
 			close(uart0_filestream);
 			mysql_close(con);
 			exit(0);
-		
 		}
-	
 	}	
 
   void *zapytanie_co_x(void *ptr){
-	  
     int *message = (int *) ptr;
     printf("message: %d \n", *message);
 
@@ -208,17 +189,13 @@ void pomiar_temp_wilg(MYSQL *con){
 		}
 			temp[i-1] = '\0';   //Zakończenie tekstu
 			i++;
-				while(rx_buffer[i]!=';'){
-										
+				while(rx_buffer[i]!=';'){					
 					wilgotnosc[i-7]=rx_buffer[i];
 					i++;					
 				}
-				
-					wilgotnosc[i-7] = '\0';   	
-											
-									//Wywołaniu funkcji zapisu do bazy danych
+					wilgotnosc[i-7] = '\0';   												
+//Wywołanie funkcji zapisu do bazy danych
 zapis_danych(rx_buffer[0],temp,wilgotnosc,con);
-				
 }
 
 void pomiar_ruch_osw(MYSQL *con){
@@ -264,7 +241,6 @@ void *symulacja(void *ptr){
 		 //Poniższa pętla powoduje, że program odczeka z wysterowaniem oświetlenia,
 	     //aż do godziny o ktorej dokonano pomiar dnia poprzedniego. UNIX_TIMESTAMP(mdate) jest zapisane w row[0].
 		do{
-	   
 			sleep(1);
 			diff_t = difftime((int)time(NULL), atoi(row[0]) );
 	    }while(diff_t<86400);
@@ -283,7 +259,6 @@ void *symulacja(void *ptr){
 		printf("id: %s \n",row[0]);		//UZYWANE DO TESTOW
 			//Przesłanie wiadomości o porządanym stanie oświetlenia do arduino, jeżeli tryb symulacji jest włączony
 		if(atoi(row[0])==1){ 		//wlaczony tryb symulacji
-	  
 			unsigned char tx_buffer[2];
 			tx_buffer[0]='w';
 			tx_buffer[1]=nastepny_stan_do_ustawienia;
@@ -292,21 +267,8 @@ void *symulacja(void *ptr){
 			if (uart0_filestream != -1){
 				int count = write(uart0_filestream,&tx_buffer[0], 2);		
 			}
-	  
-	  
-	  
 		}
 		mysql_free_result(result);
-
-
 	}		
-	
-	
 }
-
-
-
-
-
-
 
