@@ -2,8 +2,7 @@
 
 DHT dht;        // Inicjalizacja czujnika DHT11
 
-
-// Przypisanie pinow do których sa podlczone wyprowadzenia odpowiednich czujników
+// Przypisanie pinow do których sa podlaczone wyprowadzenia odpowiednich czujników
   int dht_PIN= 5;       //pin cyfrowy
   int foto_PIN = 5;     // pin analogowy 
   int MQ2_PIN_ANALOGOWY = 4;
@@ -29,7 +28,6 @@ void setup()
 {
  
    //delay(3*dht.getMinimumSamplingPeriod());
-  
   pinMode(PIR_PIN, INPUT);   //ustawienie pinów Arduino jako wejście
   pinMode(foto_PIN, INPUT);
   pinMode(oswietlenie_PIN, OUTPUT);
@@ -46,32 +44,24 @@ void setup()
        ///// /////////     MAIN      ////////////////////
 void loop()
 {
-
   //Czekanie na odebraną wiadomość.
   if (stringComplete) {
-
       if(data[0]=='t'){
       odczyt();
       wykrycie_zbocza_PIR();
       }
-      
       if(data[0]=='w'){
         zapis();
       }
-
       if(data[0]=='s'){
         wykrycie_zbocza_PIR();
       }
 
-
     //Czyszczenie bufora oraz zerowanie flagi zakończenia przesyłu wiadomości
     for( int x = 0; x < sizeof(data);  ++x ){
-    
         data[x] = (char)0;
         stringComplete = false;
     }
-  
-    
   }
 } 
 
@@ -83,7 +73,7 @@ void serialEvent(){
          char inChar = (char)Serial.read();
          //Zapis do bufora danychzapis
           data[i] = inChar;
-          
+       
      i++;
      delay(10);
      }while((Serial.available()) );
@@ -91,13 +81,9 @@ void serialEvent(){
      stringComplete = true;
 }
 
-
-
-
 void odczyt(){
   
   do{
-    
    wilgotnosc =dht.getHumidity();
    temperatura =dht.getTemperature();                                 
    foto_dane =analogRead(foto_PIN); 
@@ -118,9 +104,7 @@ Serial.println(outputString);
 }
 
 void zapis(){
-  
 oswietlenie_PIN==data[1];
-  
 }
 
 void  wykrycie_zbocza_PIR(){
@@ -135,16 +119,12 @@ outputString += foto_dane;
 outputString += ';';
 Serial.println(outputString);
 
-           outputString = "";
-
-  
+           outputString = ""; 
 }
 
 void mq2_alarm(){
   //Wykryto alarm czujnika dymu.
 outputString += "a";
   Serial.println(outputString);
-
            outputString = "";
-  
   }
