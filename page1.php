@@ -30,15 +30,12 @@
     
   </div>
 </nav>
-
 <div class="container">
  <ul class="nav nav-pills">
        <li ><a data-toggle="pill" href="#home">Start</a></li>       						<!--usuniete class="active" z <li > --> 
     <li><a data-toggle="pill" href="#menu1">Temperatura, wilgotność powietrza i gaz</a></li>
     <li><a data-toggle="pill" href="#menu2">Natężenie światła i ruch</a></li>
-   
     </ul>
-  
 <div class="container">
  <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
@@ -109,23 +106,13 @@ if ($result->num_rows > 0) {
 ?>
 
 </table>
-
-      
-      
-      
-      
       </div>
   </div>
 </div>
-
 <div class="container">
   <div class="panel panel-default">
     <div class="panel-heading">Panel sterowania</div>
     <div class="panel-body">
-    
-    
-    
-    
           <style>
 table {
   border-collapse: collapse;
@@ -165,8 +152,6 @@ $result = $conn->query($sql);
   <div class="btn-group btn-group-justified">
   
 	   <!-- Formularz panelu sterowania -->
-	  
-	  
     <div class="btn-group btn-group-lg">
 <input type="submit"  name="przycisk" id="przycisk1"class="btn btn-primary" value="Włącz oświetlenie">
     </div>
@@ -179,8 +164,6 @@ $result = $conn->query($sql);
     <div class="btn-group  btn-group-lg">
 <input type="submit"  name="przycisk" id="przycisk4"class="btn btn-primary" value="Wyłącz tryb symulacji obecności">
     </div>
-   
-    
   </div>
   <input type="submit" name="przycisk" id="przycisk5" class="btn btn-primary btn-block btn-danger" value="Usuń wszystkie dane">
   </form>
@@ -237,11 +220,7 @@ if ($result->num_rows > 0) {
 }
 
 ?> 
-     
-      
-      
-      
-      
+
       </div>
     </div>
     <div id="menu2" class="tab-pane fade">
@@ -289,9 +268,7 @@ if ($result->num_rows > 0) {
 
 
 ?> 
-          
-		  
-		  
+          	  
 <?php
 //Zdefiniowanie portu USB do którego podłączone jest XBee
 $comPort = "/dev/ttyUSB0";
@@ -309,11 +286,7 @@ $fp =fopen($comPort, 'w');
 	fwrite($fp,'t');
 	fclose($fp);
     break;
-		
-		
-		
-		
-		
+
 	case 'Włącz oświetlenie';
 $sql = "UPDATE panel_sterowania SET oswietlenie='1' WHERE id=0";
 $result = $conn->query($sql);
@@ -381,11 +354,7 @@ break;
 }
 $conn->close();
 ?>        		  
-		  
-		  
-		  
-		  
-		  
+		    
       </div>
       
     </div>
